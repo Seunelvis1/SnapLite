@@ -5,9 +5,9 @@ import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
-  title: 'SnapLit',
+  title: 'SnapLite',
 
-  projectId: 'l76zb9a7',
+  projectId: 'qhz7wm7j',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
