@@ -158,7 +158,7 @@ export const searchQuery = (searchTerm) => {
                 image
               },
             },
-          }`;
+          }`
   return query;
 };
 

@@ -15,8 +15,6 @@ import { fetchUser } from '../utils/fetchUser';
 
 const Home = () => {
 
-
-
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [user, setUser] = useState(null)
   const scrollRef = useRef(null);
@@ -36,8 +34,6 @@ const Home = () => {
   
   return (
    
-    
-
      <div className='flex bg-gray-50 md:flex-row flex-col h-screen transaction-height duration-75 ease-out'>
       <div className='hidden md:flex h-screen flex-initial'>
          <Sidebar user={user && user}/>
@@ -59,13 +55,11 @@ const Home = () => {
           </div>
           <Sidebar user={user && user} closeToggle={setToggleSidebar}/>
         </div>
-       
-       
+            
       ) } 
          </div> 
      
-        
-       <div className='pb-2 flex-1 h-screen overflow-y-scroll' ref={scrollRef}>
+        <div className='pb-2 flex-1 h-screen overflow-y-scroll' ref={scrollRef}>
         <Routes>
           <Route path='/user-profile/:userId' element={<UserProfile/>}/>
           <Route path='/*' element={<Pins user={user && user}/>}/>

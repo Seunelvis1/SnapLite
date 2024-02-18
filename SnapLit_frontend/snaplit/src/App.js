@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css';
 import {Routes, Route, useNavigate} from 'react-router-dom'
 import Login from './Components/Login';
 import Home from './Container/Home';

@@ -51,6 +51,7 @@ const Pin = ({pin: {postedBy, image, _id, destination, save}}) => {
 
   return (
     <div className='m-2'>
+
 <div className='relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out' 
 onMouseEnter={()=> setPostHovered(true)}
 onMouseLeave={()=> setPostHovered(false)} 

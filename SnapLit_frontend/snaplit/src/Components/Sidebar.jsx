@@ -60,7 +60,7 @@ const isActiveStyle = 'flex items-center px-5 gap-3 font-extrabold border-r-2 bo
       onClick={handleCloseSidebar}
       >
       <img src={logo} className="w-10 h-10 rounded-full" alt="user-profile"/>
-      <p>Oluwaseun</p>
+      <p>Oluwaseun {user.userName}</p>
       </Link>
     )}
     </div>
