@@ -19,13 +19,13 @@ const Home = () => {
   const [user, setUser] = useState(null)
   const scrollRef = useRef(null);
   const userInfo = fetchUser();
+
   useEffect(() =>{
       const query = userQuery(userInfo?.googleId);
       client.fetch(query)
     .then((data)=>{
       setUser(data[0]);
-    })
-    
+    });
     }, [])  
   
     useEffect(()=>{

@@ -82,13 +82,13 @@ const savePin = ()=>{
      )}
      <div className='flex lg:flex-row flex-col justify-center items-center bg-white lg:p-5 p-3 lg:w-4/5 w-full'>
       <div className='bg-secondaryColor p-3 flex flex-0.7 w-full'>
-        <div className='flex justify-center intems-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420'>
+        <div className='flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full h-420'>
           {loading && <Spinner/>}
-          {wrongImageType && <p>Wrong Ikage type</p>}
+          {wrongImageType && <p>Wrong Image type</p>}
           {!imageAsset ? (
             <label>
               <div className='flex flex-col items-center justify-center h-full'>
-                  <div className='flex flex-col items-center justify-center '>
+                  <div className='flex flex-col items-center justify-center'>
                       <p className='font-bold text-2xl'>
                         <AiOutlineCloudUpload />
                       </p>
@@ -115,7 +115,6 @@ const savePin = ()=>{
               >
                 <MdDelete/>
               </button>
-
             </div>
           )}
         </div>
@@ -129,7 +128,7 @@ const savePin = ()=>{
     className="outline-none text-2xl sm:text-3xl font-bold border-b-2 border-gray-200 p-2"
   />
   {user && (
-<div className='flex gap-2 my-2 intems-center bg-white rounded-lg'>
+<div className='flex gap-2 my-2 items-center bg-white rounded-lg'>
   <img src={user.image} className="w-10 h-10 rounded-full" alt='user-profile'/>
   <p className='font-bold'>{user.userName}</p>
 </div>
