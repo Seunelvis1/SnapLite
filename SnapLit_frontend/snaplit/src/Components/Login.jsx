@@ -1,6 +1,7 @@
 import React from 'react'
-import GoogleLogin from 'react-google-login'
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 import {FcGoogle} from 'react-icons/fc'
 import shareVideo from '../assets/share.mp4'
 import logo from "../assets/logowhite.png";
@@ -9,26 +10,47 @@ import jwt_decode from 'jwt-decode';
 
 
 const Login = () => {
+    const navigate = useNavigate();
 
-const navigate = useNavigate();
+  // GOOGLE LOGIN
+  const responseGoogle = (response) => {
+    const decoded = jwt_decode(response.credential);
+    const { name, picture, sub, email } = decoded;
+    const doc = {
+      _id: sub,
+      _type: "user",
+      userName: name,
+      userEmail: email,
+      image: picture,
+    };
+    localStorage.setItem("user", JSON.stringify(decoded));
+    console.log(decoded);
 
-    const responseGoogle = (response) =>{
-        localStorage.setItem('user', JSON.stringify(response.profileObj));
-       console.log(response)
-       var profileObj = jwt_decode(response.credential);
-       console.log(profileObj);
-        // const { googleId, imageUrl} = response.profileObj;
-        const doc = {
-             _id: profileObj.sub,
-             _type: 'user',
-            userName: profileObj.name,
-             image: profileObj.picture,
-         }
-         client.createIfNotExists(doc)
-         .then(() =>{
-             navigate('/', {replace: true})
-         })
-    }
+    client.createIfNotExists(doc).then(() => {
+      navigate("/", { replace: true });
+    });
+  };
+
+
+// // const navigate = useNavigate();
+
+// //     const responseGoogle = (response) =>{
+// //         localStorage.setItem('user', JSON.stringify(response.profileObj));
+// //        console.log(response)
+// //        var profileObj = response.credential;
+// //        console.log(profileObj);
+// //         // const { googleId, imageUrl} = response.profileObj;
+// //         const doc = {
+// //              _id: profileObj.sub,
+// //              _type: 'user',
+// //             userName: profileObj.name,
+// //              image: profileObj.picture,
+// //          }
+// //          client.createIfNotExists(doc)
+// //          .then(() =>{
+// //              navigate('/', {replace: true})
+// //          })
+// //     }
  
   return (
     <div className='flex justify-start items-center flex-col h-screen'>
@@ -47,26 +69,191 @@ const navigate = useNavigate();
         <img src={logo} alt='logo' width='130px'/>
     </div>
     <div className='shadow-2xl'> 
-    <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
-        render={(renderProps)=>( 
+     {/* <GoogleLogin
+         clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+         render={(renderProps)=>( 
             <button type='button'
-            className='bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none'
-            onClick={renderProps.onClick}
-                disabbled={renderProps.disabled}
-            >
-                <FcGoogle className='mr-4'/>Sign in with Google
+             className='bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none'
+             onClick={renderProps.onClick}
+                 disabbled={renderProps.disabled}
+             >
+                 <FcGoogle className='mr-4'/>Sign in with Google
                
-            </button>
-        )}
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-            cookiePolicy="single_host_origin"
-    />
+             </button>
+         )}
+         onSuccess={responseGoogle}
+         onFailure={responseGoogle}
+             cookiePolicy="single_host_origin"
+               {/* Google Login Button */}
+            <GoogleOAuthProvider
+              clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+            >
+              <GoogleLogin
+                onSuccess={responseGoogle}
+                onError={responseGoogle}
+                // theme="filled_black"
+                // width="230"
+              />
+            </GoogleOAuthProvider>
     </div>
     </div>
-    </div>
+    </div> 
   )
 }
 
-export default Login
+export default Login;
+
+// import React from 'react';
+// import GoogleLogin from 'react-google-login';
+// import { useNavigate } from 'react-router-dom';
+// import { FcGoogle } from 'react-icons/fc';
+// import shareVideo from '../assets/share.mp4';
+// import logo from '../assets/logowhite.png';
+
+// import { client } from '../client';
+
+// const Login = () => {
+//   const navigate = useNavigate();
+//   const responseGoogle = (response) => {
+//     localStorage.setItem('user', JSON.stringify(response.profileObj));
+//     const { name, googleId, imageUrl } = response.profileObj;
+//     const doc = {
+//       _id: googleId,
+//       _type: 'user',
+//       userName: name,
+//       image: imageUrl,
+//     };
+//     client.createIfNotExists(doc).then(() => {
+//       navigate('/', { replace: true });
+//     });
+//   };
+
+//   return (
+//     <div className="flex justify-start items-center flex-col h-screen">
+//       <div className=" relative w-full h-full">
+//         <video
+//           src={shareVideo}
+//           type="video/mp4"
+//           loop
+//           controls={false}
+//           muted
+//           autoPlay
+//           className="w-full h-full object-cover"
+//         />
+
+//         <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0    bg-blackOverlay">
+//           <div className="p-5">
+//             <img src={logo} width="130px" />
+//           </div>
+
+//           <div className="shadow-2xl">
+//             <GoogleLogin
+//               clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
+//               render={(renderProps) => (
+//                 <button
+//                   type="button"
+//                   className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none"
+//                   onClick={renderProps.onClick}
+//                   disabled={renderProps.disabled}
+//                 >
+//                   <FcGoogle className="mr-4" /> Sign in with google
+//                 </button>
+//               )}
+//               onSuccess={responseGoogle}
+//               onFailure={responseGoogle}
+//               cookiePolicy="single_host_origin"
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
+// import React from 'react';
+// import { GoogleLogin, GoogleLogout } from '@react-oauth/google';
+// import { useNavigate } from 'react-router-dom';
+// import { FcGoogle } from 'react-icons/fc';
+// import shareVideo from '../assets/share.mp4';
+// import logo from '../assets/logowhite.png';
+
+// import { client } from '../client';
+
+// const Login = () => {
+//   const navigate = useNavigate();
+
+//   const responseGoogleSuccess = (response) => {
+//     const { name, googleId, imageUrl } = response.profileObj;
+//     const user = {
+//       _id: googleId,
+//       _type: 'user',
+//       userName: name,
+//       image: imageUrl,
+//     };
+//     localStorage.setItem('user', JSON.stringify(user));
+//     client.createIfNotExists(user).then(() => {
+//       navigate('/', { replace: true });
+//     });
+//   };
+
+// //   const responseGoogleFailure = (error) => {
+// //     console.error('Google login failed:', error);
+// //   };
+//   const responseGoogleFailure = (error) => {
+//     if (error.error === 'popup_closed_by_user') {
+//       console.log('Google login popup closed by the user.');
+//       // Optionally, you can display a message to the user here
+//     } else {
+//       console.error('Google login failed:', error);
+//     }
+//   };
+  
+//   return (
+//     <div className="flex justify-center items-center h-screen">
+//       <div className="relative w-full h-full">
+//         <video
+//           src={shareVideo}
+//           type="video/mp4"
+//           loop
+//           controls={false}
+//           muted
+//           autoPlay
+//           className="w-full h-full object-cover"
+//         />
+
+//         <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay">
+//           <div className="p-5">
+//             <img src={logo} width="130px" alt="Logo" />
+//           </div>
+
+//           <div className="shadow-2xl">
+//             <GoogleLogin
+//               clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
+//               render={(renderProps) => (
+//                 <button
+//                   type="button"
+//                   className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none"
+//                   onClick={renderProps.onClick}
+//                   disabled={renderProps.disabled}
+//                 >
+//                   <FcGoogle className="mr-4" /> Sign in with Google
+//                 </button>
+//               )}
+//               onSuccess={responseGoogleSuccess}
+//               onFailure={responseGoogleFailure}
+//               cookiePolicy="single_host_origin"
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Login;
+
+
+
